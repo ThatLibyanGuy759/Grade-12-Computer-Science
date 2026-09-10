@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 
@@ -6,8 +7,9 @@ int main(){
     string fullName;
     int seatNum;
     char theaterSection;
+    string answer;
 
-    double subtotal;
+    double subtotal = 20.92;
     double tax;
     double total;
 
@@ -19,8 +21,13 @@ int main(){
 
     cout << "which section would you like t9o sit in the theater \n A \n B \n C \n D \n Please input one of these letters" << endl;
     cin >> theaterSection;
-    cout << "you inputed " << theaterSection;
 
+    while (theaterSection != 'A' && theaterSection != 'B' && theaterSection != 'C' && theaterSection != 'D') {
+    
+        cout << "Invalid input, try again: ";
+        cin >> theaterSection;
+    }
+    
     cout << "now I need you to select a seat between 1 and 200" << endl;
     cin >> seatNum;
 
@@ -29,11 +36,19 @@ int main(){
         cin >> seatNum;
     }
 
-    cout << "you chose " << seatNum;
+    cout << "allat will cost roughly $20.92, do you want your recipt (y/n)?" << endl;
 
-    cout << "allat will cost roughly $938290.92, is that fine with you?" << endl;
+    cin >> answer;
 
-    cin;
-
-    cout << "it dont matter"; 
+    if(answer == "y"){
+        cout << "------------------------" << endl;
+        cout << "|Name: " << fullName << endl;
+        cout << "|Section: " << theaterSection << endl;
+        cout << "|Seat: " << seatNum << endl;
+        cout << "|Price: $" << subtotal << endl;
+        cout << "------------------------" << endl;
+    }
+    else{
+        return false;
+    }
 }
