@@ -42,12 +42,12 @@ int main(){
     cin >> answer;
 
     if(answer == "y"){
-        printf("|-----------------------------|\n");
-        printf("|Name: %-25s|\n", fullName.c_str());
-        printf("|Section: %-25s|\n", theaterSection);
-        printf("|Seat: %-25s|                   |\n", seatNum);
-        printf("|Price: %-25s|\n", subtotal);
-        printf("|-----------------------------|\n");
+        printf("|--------------------------------|\n");
+        printf("|Name: %25s |\n", fullName.c_str());
+        printf("|Section: %22c |\n", theaterSection);
+        printf("|Seat: %25d |\n", seatNum);
+        printf("|Price: %24.2f |\n", subtotal);
+        printf("|--------------------------------|\n");
     }
     else{
         return false;
