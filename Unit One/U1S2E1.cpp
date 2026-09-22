@@ -1,30 +1,13 @@
 #include <iostream>
-#include <string>
+#include <limits>  
+#include <climits>
 
 using namespace std;
 
 int main() {
-    string name;
-    char letter;
-    unsigned short age;
-    string phoneNumber;
+    int minInt = std::numeric_limits<int>::min();
+    int maxInt = std::numeric_limits<int>::max();
 
-    
-    cout << "Enter your name: ";
-    getline(cin, name);
-
-    cout << "Enter a letter: ";
-    cin >> letter;
-
-    cout << "Enter your age: ";
-    cin >> age;
-
-    cout << "Enter your phone number: ";
-    cin >> phoneNumber;
-
-    cout << "Name: " << name << endl;
-    cout << "letter: " << letter << endl;
-    cout << "Age: " << age << endl;
-    cout << "Phone: " << phoneNumber << endl;
-
+    cout << "The lowest possible int value is: " << minInt << "\n";
+    cout << "The highest possible int value is: " << maxInt << "\n";
 }
