@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <algorithm>
 
 using namespace std;
 
@@ -117,12 +118,10 @@ void printMenu() {
 }
 
 bool isPriorityTaken(const vector<Task>& taskList, int priority) {
-    for (const auto& task : taskList) {
-        if (task.priority == priority) {
-            return true;
-        }
-    }
-    return false;
+    return std::any_of(taskList.begin(), taskList.end(),
+        [priority](const Task& task) {
+            return task.priority == priority;
+        });
 }
 
 void addTask(vector<Task>& taskList) {
@@ -188,34 +187,23 @@ void removeTask(vector<Task>& taskList) {
     cin.ignore(10000, '\n');
 }
 
-//sort for alphebetical order
+//sort for alphabetical order
 void customSortAlphabetical(vector<Task>& taskList, bool reverse) {
-    size_t n = taskList.size();
-    for (size_t i = 0; i < n; ++i) {
-        for (size_t j = 0; j + 1 < n - i; ++j) {
-            bool condition = reverse ? (taskList[j].description < taskList[j + 1].description)
-                                     : (taskList[j].description > taskList[j + 1].description);
-            if (condition) {
-                Task temp = taskList[j];
-                taskList[j] = taskList[j + 1];
-                taskList[j + 1] = temp;
+    std::sort(taskList.begin(), taskList.end(),
+        [reverse](const Task& a, const Task& b) {
+            if (reverse) {
+                return a.description > b.description;
             }
-        }
-    }
+            return a.description < b.description;
+        });
 }
 
-//bubble sort for prioraty list(niche)
+//sort by priority, with lower numbers first
 void customSortByPriority(vector<Task>& taskList) {
-    size_t n = taskList.size();
-    for (size_t i = 0; i < n; ++i) {
-        for (size_t j = 0; j + 1 < n - i; ++j) {
-            if (taskList[j].priority > taskList[j + 1].priority) {
-                Task temp = taskList[j];
-                taskList[j] = taskList[j + 1];
-                taskList[j + 1] = temp;
-            }
-        }
-    }
+    std::sort(taskList.begin(), taskList.end(),
+        [](const Task& a, const Task& b) {
+            return a.priority < b.priority;
+        });
 }
 
 //clear the task list if new todo list is asked for
