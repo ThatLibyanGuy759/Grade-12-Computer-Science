@@ -46,7 +46,7 @@ int main() {
         cin.ignore(10000, '\n');
 
         for (int i = 0; i < initialCount; ++i) {
-            cout << "Adding initial task #" << (i + 1) << ":" << endl;
+            cout << "Adding initial task #" << (i + 1) << "" << endl;
             addTask(taskList);
         }
     }
@@ -131,7 +131,7 @@ void addTask(vector<Task>& taskList) {
 
     int prio = 0;
     while (true) {
-        cout << "Enter priority (unique positive integer, #1 is highest): ";
+        cout << "Enter priority: ";
         if (cin >> prio && prio > 0) {
             if (isPriorityTaken(taskList, prio)) {
                 cout << "Priority #" << prio << " is already assigned. Pick a different number." << endl;
@@ -164,7 +164,7 @@ void displayTasks(const vector<Task>& taskList) {
              << taskList[i].description
              << " (Added: " << taskList[i].dateAdded << ")" << endl;
     }
-    cout << "===================================================" << endl;
+    cout << "___________________________________________________" << endl;
 }
 
 //removes the task apon request
