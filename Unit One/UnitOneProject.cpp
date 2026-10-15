@@ -118,7 +118,7 @@ void printMenu() {
 }
 
 bool isPriorityTaken(const vector<Task>& taskList, int priority) {
-    return std::any_of(taskList.begin(), taskList.end(),
+    return any_of(taskList.begin(), taskList.end(),
         [priority](const Task& task) {
             return task.priority == priority;
         });
@@ -189,7 +189,7 @@ void removeTask(vector<Task>& taskList) {
 
 //sort for alphabetical order
 void customSortAlphabetical(vector<Task>& taskList, bool reverse) {
-    std::sort(taskList.begin(), taskList.end(),
+    sort(taskList.begin(), taskList.end(),
         [reverse](const Task& a, const Task& b) {
             if (reverse) {
                 return a.description > b.description;
@@ -200,7 +200,7 @@ void customSortAlphabetical(vector<Task>& taskList, bool reverse) {
 
 //sort by priority, with lower numbers first
 void customSortByPriority(vector<Task>& taskList) {
-    std::sort(taskList.begin(), taskList.end(),
+    sort(taskList.begin(), taskList.end(),
         [](const Task& a, const Task& b) {
             return a.priority < b.priority;
         });
