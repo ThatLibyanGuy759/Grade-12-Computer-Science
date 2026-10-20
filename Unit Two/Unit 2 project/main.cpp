@@ -12,10 +12,41 @@ void printGrid(int gridWidth, int gridHeight){
     }
 }
 
+void playerConfigs(string input, bool singlePlayer){
+    cout << "are you playing with a friend(yes or no)" << endl;
+    cin >> input;
 
-int main(){
+    if(input == "yes") {
+        singlePlayer = false;
+    }
+    else {
+        singlePlayer = true;
+    }
+}
+
+void usernameConfig(string playerOneName, string playerTwoName, bool isSinglePlayer){
+    if(isSinglePlayer == true){
+        playerTwoName = "CPU";
+
+        cout << "what is your name" << endl;
+        getline(cin, playerOneName);
+    }
+    else{
+        cout << "Player 1 name: " << endl;
+        getline(cin, playerOneName);
+        cout << "Player 2 name: " << endl;
+        getline(cin, playerTwoName);
+    }
+}
+int main() {
     int width;
     int height;
+    bool singlePlayer = false;
+    string input;
+    string playerOneName;
+    string playerTwoName;
+
+    playerConfigs(input, singlePlayer);
 
     cout << "what width do you want your grid?" << endl; 
     cin >> width;
@@ -24,8 +55,7 @@ int main(){
     cin >> height;
 
     printGrid(width, height);
-
-
-    
-
+    usernameConfig(playerOneName,playerTwoName, singlePlayer);
+    cout << playerOneName << endl;
+    cout << playerTwoName << endl;
 }
