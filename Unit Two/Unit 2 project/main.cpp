@@ -1,6 +1,7 @@
 #include <iostream>
 #include <limits>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -20,20 +21,23 @@ void printGrid(const vector<vector<char>>& grid) {
     }
 }
 
-void selectCell(vector<vector<char>>& grid) {
+void placeBoats(vector<vector<char>>& grid, int boatCount) {
     int row;
     int column;
 
-    while (true) {
-        cout << "Choose a row and column (for example: 2 3): ";
+    for (int boat = 1; boat <= boatCount;) {
+        cout << "Place boat " << boat << " of " << boatCount
+             << " by choosing a row and column (for example: 2 3): ";
         if (cin >> row >> column) {
-            if (row >= 1 && row <= grid.size() &&
-                column >= 1 && column <= grid[0].size()) {
-                grid[row - 1][column - 1] = 'X';
-                break;
+            if (row < 1 || row > static_cast<int>(grid.size()) ||
+                column < 1 || column > static_cast<int>(grid[0].size())) {
+                cout << "That location is outside the grid. Try again." << endl;
+            } else if (grid[row - 1][column - 1] != '.') {
+                cout << "There is already a boat at that location. Try again." << endl;
+            } else {
+                grid[row - 1][column - 1] = 'B';
+                boat++;
             }
-
-            cout << "That location is outside the grid. Try again." << endl;
         } else {
             cout << "Enter two numbers. Try again." << endl;
             cin.clear();
@@ -69,6 +73,7 @@ void usernameConfig(string playerOneName, string playerTwoName, bool isSinglePla
     }
 }
 int main() {
+    const int boatCount = 10;
     int width;
     int height;
     bool singlePlayer = false;
@@ -89,9 +94,15 @@ int main() {
         return 1;
     }
 
+    if (static_cast<long long>(width) * height < boatCount) {
+        cout << "The grid must have at least " << boatCount
+             << " spaces to place all the boats." << endl;
+        return 1;
+    }
+
     vector<vector<char>> grid(height, vector<char>(width, '.'));
     printGrid(grid);
-    selectCell(grid);
+    placeBoats(grid, boatCount);
     printGrid(grid);
 
     usernameConfig(playerOneName,playerTwoName, singlePlayer);
