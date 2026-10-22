@@ -4,21 +4,21 @@
 
 using namespace std;
 
-int findGCF(int a, int b) {
-    a = abs(a);
-    b = abs(b);
-    
-    while (b != 0) {
-        int temp = b;
-        b = a % b;
-        a = temp;
+int findGCF(int numOne, int numTwo) {
+    numOne = abs(numOne);
+    numTwo = abs(numTwo);
+
+    while (numTwo != 0) {
+        int temp = numTwo;
+        numTwo = numOne % numTwo;
+        numOne = temp;
     }
     
-    return a;
+    return numOne;
 }
 
-int findGCF(int a, int b, int c) {
-    return findGCF(findGCF(a, b), c);
+int findGCF(int numOne, int numTwo, int numThree) {
+    return findGCF(findGCF(numOne, numTwo), numThree);
 }
 
 int findGCF(const vector<int>& nums) {

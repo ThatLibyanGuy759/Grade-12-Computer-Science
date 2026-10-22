@@ -8,7 +8,6 @@ int main()
 {
     int result = sum(numInfo);
 
-    cout << "the sum is " << result << std::endl;
+    cout << "the sum is " << result << endl;
 
-    return 0;
 }

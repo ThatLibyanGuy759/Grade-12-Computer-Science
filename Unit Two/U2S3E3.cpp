@@ -2,27 +2,25 @@
 using namespace std;
 
 int main() {
-    int n;
+    int num;
     cout << "Enter the position in Fibonacci sequence ";
-    cin >> n;
+    cin >> num;
     
-    if (n <= 0) {
+    if (num  <= 0) {
         cout << "Please enter a positive number." << endl;
         return 1;
     }
     
-    if (n == 1 || n == 2) {
-        cout << "The " << n << "the Fibonacci number is 1" << endl;
-        return 0;
+    if (num == 1 || num == 2) {
+        cout << "The " << num << "the Fibonacci number is 1" << endl;
     }
     
     int fib1 = 1, fib2 = 1, fibN;
-    for (int i = 3; i <= n; i++) {
+    for (int i = 3; i <= num; i++) {
         fibN = fib1 + fib2;
         fib1 = fib2;
         fib2 = fibN;
     }
     
-    cout << "The " << n << "th Fibonacci number is " << fibN << endl;
-    return 0;
+    cout << "The " << num << "th Fibonacci number is " << fibN << endl;
 }
