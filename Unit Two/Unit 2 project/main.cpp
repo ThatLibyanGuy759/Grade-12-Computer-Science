@@ -51,8 +51,7 @@ int main() {
         return 1;
     }
 
-    if (width <= 0 || height <= 0 ||
-        static_cast<long long>(width) * height < boatCount) {
+    if(width <= 0 || height <= 0 ||static_cast<long long>(width) * height < boatCount) {
         cout << "The grid must have positive dimensions and at least " << boatCount
              << " spaces for the ships." << endl;
         return 1;
@@ -111,18 +110,18 @@ int main() {
 
         if(boardExhausted) {
             cout << "No unshot squares remain. Both players lose." << endl;
-        } else if (playerOneWins && playerTwoWins) {
+        } else if(playerOneWins && playerTwoWins) {
             cout << "Both players sank the last ship in the same round. It's a draw; both lose!"
                  << endl;
-        } else if (playerOneWins) {
+        } else if(playerOneWins) {
             cout << playerOneName << " wins!" << endl;
-        } else if (playerTwoWins) {
+        } else if(playerTwoWins) {
             cout << playerTwoName << " wins!" << endl;
         }
 
         cout << "Would you like to play another game with new boat placements? (yes/no): ";
         string playAgain;
-        while (true) {
+        while(true) {
         if (!(cin >> playAgain)) {
             return 0;
         }
