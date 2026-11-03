@@ -26,7 +26,7 @@ int main()
     {
         for (int num : row)
         {
-            cout << num << " ";
+            cout << "0" << " ";
         }
         cout << endl;
     }
