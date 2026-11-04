@@ -3,7 +3,9 @@
 
 #include <iostream>
 #include <limits>
+#include <random>
 #include <string>
+#include <utility>
 #include <vector>
 
 using namespace std;
@@ -36,7 +38,7 @@ Grid createGrid(int height, int width) {
 }
 
 //this prints our actual grid with labels
-void displayGrid(const Grid& grid) {
+void displayCellGrid(const Grid& grid) {
     if(grid.empty() || grid[0].empty()) {
         return;
     }
@@ -58,7 +60,7 @@ void displayGrid(const Grid& grid) {
 }
 
 //displays the grid
-void displayGrid(const vector<vector<int>>& grid) {
+void displayIntegerGrid(const vector<vector<int>>& grid) {
     for(const vector<int>& row : grid) {
         for (int value : row) {
             cout << value << " ";
@@ -68,7 +70,7 @@ void displayGrid(const vector<vector<int>>& grid) {
 }
 
 //displays the values
-void displayValues(const vector<int>& values) {
+void displayIntegerValues(const vector<int>& values) {
     for(int value : values) {
         cout << value << " ";
     }
@@ -107,7 +109,7 @@ int countAdjacentBoats(const Grid& grid, int row, int column, int direction = 0)
     //offset to see if theres boats 1 spot near by on all sides
     static const int rowOffsets[] = {-1, -1, -1, 0, 0, 1, 1, 1};
     static const int columnOffsets[] = {-1, 0, 1, -1, 1, -1, 0, 1};
-    //stops when theres 8 boats near by
+    //Stops after checking all eight neighboring squares.
     if(direction == 8) {
         return 0;
     }
@@ -133,7 +135,7 @@ void placeBoats(Grid& grid, int boatCount, const string& playerName) {
         int row;
         int column;
         cout << "Your grid:" << endl;
-        displayGrid(grid);
+        displayCellGrid(grid);
 
         if(!readCoordinate(grid, "Place ship " + to_string(i) + ": ", row, column)) {
             return;
@@ -143,13 +145,31 @@ void placeBoats(Grid& grid, int boatCount, const string& playerName) {
         if(grid[row - 1][column - 1].state != '.') {
             cout << "There is already a ship there." << endl;
         } else{
-            grid[row - 1][column - 1].state = 'B';  // b for boat(ik shocking)
+            grid[row - 1][column - 1].state = 'B';
             i++;
         }
     }
 }
 
-//makes the symbol a dot so that it looks good(i chose a random symbol)
+void placeCpuBoats(Grid& grid, int boatCount, mt19937& randomGenerator) {
+    vector<pair<int, int>> availableSquares;
+    for (int row = 0; row < static_cast<int>(grid.size()); row++) {
+        for (int column = 0; column < static_cast<int>(grid[row].size()); column++) {
+            availableSquares.push_back(make_pair(row, column));
+        }
+    }
+
+    for (int boat = 0; boat < boatCount; boat++) {
+        uniform_int_distribution<int> chooseSquare(
+            0, static_cast<int>(availableSquares.size()) - 1);
+        int selected = chooseSquare(randomGenerator);
+        pair<int, int> square = availableSquares[selected];
+        grid[square.first][square.second].state = 'B';
+        availableSquares.erase(availableSquares.begin() + selected);
+    }
+}
+
+//Checks whether any shot positions remain.
 bool hasUnfiredSquares(const Grid& shotHistory) {
     for(const vector<Cell>& row : shotHistory) {
         for(const Cell& cell : row) {
@@ -160,10 +180,36 @@ bool hasUnfiredSquares(const Grid& shotHistory) {
     }
     return false;
 }
-//this checks if you hit a bot or not
+
+bool chooseCpuShot(const Grid& shotHistory, mt19937& randomGenerator,
+                   int& row, int& column) {
+    vector<pair<int, int>> availableShots;
+    for (int currentRow = 0; currentRow < static_cast<int>(shotHistory.size()); currentRow++) {
+        for (int currentColumn = 0;
+             currentColumn < static_cast<int>(shotHistory[currentRow].size());
+             currentColumn++) {
+            if (shotHistory[currentRow][currentColumn].state == '.') {
+                availableShots.push_back(make_pair(currentRow, currentColumn));
+            }
+        }
+    }
+
+    if (availableShots.empty()) {
+        return false;
+    }
+
+    uniform_int_distribution<int> chooseShot(
+        0, static_cast<int>(availableShots.size()) - 1);
+    pair<int, int> shot = availableShots[chooseShot(randomGenerator)];
+    row = shot.first + 1;
+    column = shot.second + 1;
+    return true;
+}
+
+//Reads a valid shot that has not already been taken.
 bool readPlayerShot(const string& playerName, const Grid& shotHistory, int& row, int& column) {
     cout << playerName << "'s shots:" << endl;
-    displayGrid(shotHistory);
+    displayCellGrid(shotHistory);
 
     while(true) {
         if(!readCoordinate(shotHistory, "Choose a row and column to fire at: ", row, column)) {
