@@ -19,7 +19,7 @@ class Player{
 
 void Player::showHealthBar() const {
     int totalBars = maxHp; 
-    int filledBars = static_cast<int>((currentHp / 20.0) * totalBars); 
+    int filledBars = static_cast<int>((currentHp / maxHp) * totalBars); 
 
     cout << "Player Health: [";
     for (int i = 0; i < filledBars; i++) {
