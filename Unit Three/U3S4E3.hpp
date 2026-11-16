@@ -12,9 +12,13 @@ class Mammal{
 };
 
 class Cat: public Mammal{
-    public:
+    private:
         string species = "cat";
 
+    public:
+        string getSpecies(){
+            return species;
+        }
         void makeSound(){
             cout << "Meow" << endl;
         }
